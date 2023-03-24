@@ -1,0 +1,14 @@
+.header {
+  height: 400px;
+  background-position: center;
+  background-size: cover;
+}
+
+.wrapper {
+  max-width: 450px;
+  margin: auto;
+}
+
+.options {
+  text-transform: capitalize;
+}

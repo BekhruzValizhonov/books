@@ -1,0 +1,11 @@
+.main_container {
+  max-width: 1350px;
+  margin: auto;
+}
+
+.cards_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}

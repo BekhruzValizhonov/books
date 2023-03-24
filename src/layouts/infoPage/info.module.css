@@ -1,0 +1,16 @@
+.images {
+  width: 300px;
+  height: 300px;
+  background-position: center;
+  background-size: cover;
+}
+
+.description {
+  line-height: 28px;
+  font-size: 18px;
+}
+
+.spinner {
+  width: 100px;
+  height: 100px;
+}
