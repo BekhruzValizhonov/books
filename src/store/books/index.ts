@@ -27,8 +27,6 @@ class Book {
           `${process.env.REACT_APP_BASE_URL}/volumes?q=${search}+printType=${category}&orderBy=${sort}&maxResults=${this.pageCount}&key=${process.env.REACT_APP_MY_API_KEY}`
         )
         .then((res) => {
-          // Qilinadigan ishla
-          // docker, server i yuborish
           runInAction(() => {
             this.books.items = res.data.items;
           });
