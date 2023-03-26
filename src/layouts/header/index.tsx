@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Input from "@/components/Input";
 import bg_image from "@/utils/images/bg_image.jpg";
@@ -13,19 +13,40 @@ import style from "./header.module.css";
 const bgImage = { backgroundImage: `url(${bg_image})` };
 
 const Header: FC = observer(() => {
-  const [search, setSearch] = useState<string>("");
-  const [sort, setSort] = useState<string>("relevance");
-  const [category, setCategory] = useState<string>("all");
+  const params = useParams();
+  const [search, setSearch] = useState<string>(
+    !params.search ? " " : params.search
+  );
+  const [sort, setSort] = useState<string>(
+    !params.sort ? "relevance" : params.sort
+  );
+  const [category, setCategory] = useState<string>(
+    !params.category ? "all" : params.category
+  );
   const navigate = useNavigate();
+
+  useEffect(() => navigate(`/main/${search}/${category}/${sort}`), []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+      navigate(`/main/${search.trim()}/${category}/${sort}`);
       bookStore.fetchBooks({ search, category, sort });
-      navigate(`/${search.replace(/\s/g, "")}/${category}/${sort}`);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(e.target.value);
+    navigate(`/main/${search}/${e.target.value}/${sort}`);
+    bookStore.fetchBooks({ search, category: e.target.value, sort });
+  };
+
+  const handleSortsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
+    navigate(`/main/${search}/${category}/${e.target.value}`);
+    bookStore.fetchBooks({ search, category, sort: e.target.value });
   };
 
   return (
@@ -45,11 +66,7 @@ const Header: FC = observer(() => {
           <Select
             className="mb-2"
             value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-              navigate(`/${search}/${category}/${sort}`);
-              bookStore.fetchBooks({ search, category: e.target.value, sort });
-            }}
+            onChange={handleCategoriesChange}
           >
             <option disabled>Categories</option>
             {categories.map((option) => (
@@ -59,15 +76,7 @@ const Header: FC = observer(() => {
             ))}
           </Select>
 
-          <Select
-            className="mb-2"
-            value={sort}
-            onChange={(e) => {
-              setSort(e.target.value);
-              navigate(`/${search}/${category}/${sort}`);
-              bookStore.fetchBooks({ search, category, sort: e.target.value });
-            }}
-          >
+          <Select className="mb-2" value={sort} onChange={handleSortsChange}>
             <option disabled>Sorting by</option>
             <option value="newest">Newest</option>
             <option value="relevance">Relevance </option>
