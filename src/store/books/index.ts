@@ -24,7 +24,7 @@ class Book {
       this.spinner = true;
       axios
         .get(
-          `${process.env.REACT_APP_BASE_URL}/volumes?q=${search}+printType=${category}&orderBy=${sort}&maxResults=${this.pageCount}&key=${process.env.REACT_APP_MY_API_KEY}`
+          `https://www.googleapis.com/books/v1/volumes?q=${search}+printType=${category}&orderBy=${sort}&maxResults=${this.pageCount}&key=AIzaSyCCdslo43Rxy5pKZulL40KK2GO4qjwxBts`
         )
         .then((res) => {
           runInAction(() => {
@@ -45,7 +45,7 @@ class Book {
       this.spinner = true;
       axios
         .get(
-          `${process.env.REACT_APP_BASE_URL}/volumes/${id}?key=${process.env.REACT_APP_MY_API_KEY}`
+          `https://www.googleapis.com/books/v1/volumes/${id}?key=AIzaSyCCdslo43Rxy5pKZulL40KK2GO4qjwxBts`
         )
         .then((res) => {
           runInAction(() => {

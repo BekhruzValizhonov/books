@@ -15,6 +15,11 @@ const routers: Router[] = [
     link: RoutesEnum.Info,
     component: <Info />,
   },
+  {
+    key: "404",
+    link: RoutesEnum.NoPage,
+    component: <Main />,
+  },
 ];
 
 export default routers;
