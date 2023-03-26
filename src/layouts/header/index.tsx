@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Input from "@/components/Input";
@@ -7,8 +7,8 @@ import bookStore from "@/store/books";
 import { observer } from "mobx-react-lite";
 import Select from "@/components/Select";
 import { categories } from "@/utils/mock/options";
-import style from "./header.module.css";
 import { Container } from "react-bootstrap";
+import style from "./header.module.css";
 
 const bgImage = { backgroundImage: `url(${bg_image})` };
 
@@ -22,22 +22,11 @@ const Header: FC = observer(() => {
     try {
       e.preventDefault();
       bookStore.fetchBooks({ search, category, sort });
-      navigate(
-        `/search=${search.replace(/\s/g, "")}/category=${category}/sort=${sort}`
-      );
+      navigate(`/${search.replace(/\s/g, "")}/${category}/${sort}`);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    try {
-      navigate(`/search=${search}/category=${category}/sort=${sort}`);
-      bookStore.fetchBooks({ search, category, sort });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [sort, category]);
 
   return (
     <div className={style.header} style={bgImage}>
@@ -56,7 +45,11 @@ const Header: FC = observer(() => {
           <Select
             className="mb-2"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              navigate(`/${search}/${category}/${sort}`);
+              bookStore.fetchBooks({ search, category: e.target.value, sort });
+            }}
           >
             <option disabled>Categories</option>
             {categories.map((option) => (
@@ -69,7 +62,11 @@ const Header: FC = observer(() => {
           <Select
             className="mb-2"
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => {
+              setSort(e.target.value);
+              navigate(`/${search}/${category}/${sort}`);
+              bookStore.fetchBooks({ search, category, sort: e.target.value });
+            }}
           >
             <option disabled>Sorting by</option>
             <option value="newest">Newest</option>

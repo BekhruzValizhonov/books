@@ -9,9 +9,9 @@ import style from "./main.module.css";
 
 const Main: FC = observer(() => {
   const params = useParams();
-  const search = params.search?.split("=")[1];
-  const category = params.category?.split("=")[1];
-  const sort = params.sort?.split("=")[1];
+  const search = params.search;
+  const category = params.category;
+  const sort = params.sort;
 
   useEffect(() => {
     if (search || category || sort) {
