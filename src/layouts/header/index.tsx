@@ -38,15 +38,23 @@ const Header: FC = observer(() => {
   };
 
   const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-    navigate(`/main/${search}/${e.target.value}/${sort}`);
-    bookStore.fetchBooks({ search, category: e.target.value, sort });
+    try {
+      setCategory(e.target.value);
+      navigate(`/main/${search}/${e.target.value}/${sort}`);
+      bookStore.fetchBooks({ search, category: e.target.value, sort });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSortsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value);
-    navigate(`/main/${search}/${category}/${e.target.value}`);
-    bookStore.fetchBooks({ search, category, sort: e.target.value });
+    try {
+      setSort(e.target.value);
+      navigate(`/main/${search}/${category}/${e.target.value}`);
+      bookStore.fetchBooks({ search, category, sort: e.target.value });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
