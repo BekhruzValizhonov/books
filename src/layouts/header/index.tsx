@@ -13,15 +13,17 @@ import style from "./header.module.css";
 const bgImage = { backgroundImage: `url(${bg_image})` };
 
 const Header: FC = observer(() => {
-  const params = useParams();
+  const params: any = useParams();
+  const queryParams = Object.values(params).join("").split("/");
+
   const [search, setSearch] = useState<string>(
-    !params.search ? "" : params.search
+    !queryParams[0] ? "" : queryParams[0]
   );
   const [sort, setSort] = useState<string>(
-    !params.sort ? "relevance" : params.sort
+    !queryParams[2] ? "relevance" : queryParams[2]
   );
   const [category, setCategory] = useState<string>(
-    !params.category ? "all" : params.category
+    !queryParams[1] ? "all" : queryParams[1]
   );
   const navigate = useNavigate();
 
@@ -32,7 +34,7 @@ const Header: FC = observer(() => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       await e.preventDefault();
-      await navigate(`/main/${search?.trim()}/${category}/${sort}`);
+      await navigate(`/${search?.trim()}/${category}/${sort}`);
       await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
@@ -44,7 +46,7 @@ const Header: FC = observer(() => {
   ) => {
     try {
       await setCategory(e.target.value);
-      await navigate(`/main/${search}/${e.target.value}/${sort}`);
+      await navigate(`/${search}/${e.target.value}/${sort}`);
       await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
@@ -54,7 +56,7 @@ const Header: FC = observer(() => {
   const handleSortsChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     try {
       await setSort(e.target.value);
-      await navigate(`/main/${search}/${category}/${e.target.value}`);
+      await navigate(`/${search}/${category}/${e.target.value}`);
       await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
