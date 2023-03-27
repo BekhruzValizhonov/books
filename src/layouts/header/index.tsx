@@ -15,7 +15,7 @@ const bgImage = { backgroundImage: `url(${bg_image})` };
 const Header: FC = observer(() => {
   const params = useParams();
   const [search, setSearch] = useState<string>(
-    !params.search ? " " : params.search
+    !params.search ? "" : params.search
   );
   const [sort, setSort] = useState<string>(
     !params.sort ? "relevance" : params.sort
@@ -25,33 +25,37 @@ const Header: FC = observer(() => {
   );
   const navigate = useNavigate();
 
-  useEffect(() => navigate(`/main/${search}/${category}/${sort}`), []);
+  useEffect(() => {
+    bookStore.fetchBooks({ search, category, sort });
+  }, [bookStore.pageCount]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      e.preventDefault();
-      navigate(`/main/${search.trim()}/${category}/${sort}`);
-      bookStore.fetchBooks({ search, category, sort });
+      await e.preventDefault();
+      await navigate(`/main/${search?.trim()}/${category}/${sort}`);
+      await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleCategoriesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoriesChange = async (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     try {
-      setCategory(e.target.value);
-      navigate(`/main/${search}/${e.target.value}/${sort}`);
-      bookStore.fetchBooks({ search, category: e.target.value, sort });
+      await setCategory(e.target.value);
+      await navigate(`/main/${search}/${e.target.value}/${sort}`);
+      await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleSortsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSortsChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     try {
-      setSort(e.target.value);
-      navigate(`/main/${search}/${category}/${e.target.value}`);
-      bookStore.fetchBooks({ search, category, sort: e.target.value });
+      await setSort(e.target.value);
+      await navigate(`/main/${search}/${category}/${e.target.value}`);
+      await bookStore.fetchBooks({ search, category, sort });
     } catch (error) {
       console.log(error);
     }

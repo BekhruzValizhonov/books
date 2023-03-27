@@ -1,23 +1,20 @@
 import { FC, useEffect } from "react";
 import BookCard from "@/components/Card";
 import bookStore from "@/store/books";
-import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import Loader from "@/components/Loader";
 import Btn from "@/components/Button";
 import style from "./main.module.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Main: FC = observer(() => {
+  const navigate = useNavigate();
   const params = useParams();
-  const search = params.search;
-  const category = params.category;
-  const sort = params.sort;
 
   useEffect(() => {
-    if (search || category || sort) {
-      bookStore.fetchBooks({ search, category, sort });
-    }
-  }, [bookStore.pageCount]);
+    if (params.sort && params.category && params.search) return;
+    navigate("/main");
+  }, []);
 
   return (
     <div className={style.main_container}>
