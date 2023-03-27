@@ -14,7 +14,6 @@ const bgImage = { backgroundImage: `url(${bg_image})` };
 
 const Header: FC = observer(() => {
   const params: any = useParams();
-  console.log(params);
   const [search, setSearch] = useState<string>(
     !params.search ? "" : params.search.replace(/ /g, "")
   );
