@@ -1,15 +1,15 @@
-import { FC } from "react";
+import React from "react";
 import BookCard from "@/components/Card";
 import bookStore from "@/store/books";
-import { observer } from "mobx-react-lite";
 import Loader from "@/components/Loader";
 import Btn from "@/components/Button";
-import style from "./main.module.css";
+import { observer } from "mobx-react-lite";
+import style from "./books.module.css";
 
-const Main: FC = observer(() => {
+const Books = observer(() => {
   return (
-    <div className={style.main_container}>
-      <div className={`${style.cards_container} mt-5`}>
+    <>
+      <div className={`${style.container} mt-5`}>
         {bookStore.spinner ? (
           <Loader animation="border" variant="primary" />
         ) : (
@@ -28,8 +28,8 @@ const Main: FC = observer(() => {
           />
         </div>
       )}
-    </div>
+    </>
   );
 });
 
-export default Main;
+export default Books;

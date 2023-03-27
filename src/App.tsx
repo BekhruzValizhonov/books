@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import OutletPages from "./routers/OutletPages";
+import Main from "./layouts/main";
 import routers from "./routers/router";
-import Main from "./layouts/mainPage";
 
 const App = (): JSX.Element => {
   return (
