@@ -13,7 +13,7 @@ const Main: FC = observer(() => {
 
   useEffect(() => {
     if (params.sort && params.category && params.search) return;
-    navigate("/main");
+    navigate("/main/ /all/relevance");
   }, []);
 
   return (
